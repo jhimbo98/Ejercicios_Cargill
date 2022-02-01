@@ -72,7 +72,7 @@ create table tbl_Invoices(
 	InvoiceID int not null IDENTITY(1,1),
 	InvoiceNumber varchar(50) not null,
 	ClientID int not null,
-	InvoiceDate smalldatetime not null default SYSDATETIMEOFFSET(), /*El campo llamado InvoiceDate existe una confusión generada por el hecho de que los datos que se encuentran en este campo son de tipo time por ende no cumple que sea de tipo date tal cual el nombre del campo lo indica*/
+	InvoiceDate smalldatetime not null default SYSDATETIMEOFFSET(), /*El campo llamado InvoiceDate existe una confusiÃ³n generada por el hecho de que los datos que se encuentran en este campo son de tipo time por ende no cumple que sea de tipo date tal cual el nombre del campo lo indica*/
 	TotalDiscount varchar(5) default 0,
 	DeliveryCharge smallint default 0,
 	InvoiceDateKey date not null default GETDATE(),
@@ -174,14 +174,9 @@ select * from [dbo].[tbl_Stock]
 select * from [dbo].[tbl_Invoices]
 go
 
-select CONVERT(char(10),[InvoiceDate],103) as InvoiceDate from [dbo].[tbl_Invoices]
-where not (InvoiceDate between '01/04/2015' and '30/06/2015') and year(InvoiceDate) = '2015'
-union
-select CONVERT(char(10),[InvoiceDate],103) as InvoiceDate from [dbo].[tbl_Invoices]
-where not (InvoiceDate between '01/10/2015' and '31/12/2015') and year(InvoiceDate) = '2015'
 
-
-go
+/*Create a query that returns the top 3 car brands most sold (i.e., having the most car brand sales) during first
+and third quarter of year 2015.*/
 select * from (
 	select * from (
 		select DATEPART(q,InvoiceDate) as Quarters,[SalePrice],[Make],[Model], CONVERT(char(10),[InvoiceDate],103) as InvoiceDate,
@@ -204,6 +199,8 @@ where TopSalePrice <=3
 order by Datepart(q,InvoiceDate), TopSalePrice ASC
 go
 
+/*Create a query that shows the top 3 most sold car colors (i.e., having the most car color sales) for each
+quarter for the years 2012,2013,2014,2015.*/
 select * from (
 	select * from (
 		select * from (
